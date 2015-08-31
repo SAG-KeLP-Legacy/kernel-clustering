@@ -17,6 +17,7 @@ package it.uniroma2.sag.kelp.learningalgorithm.clustering.kmeans;
 
 import it.uniroma2.sag.kelp.data.clustering.Cluster;
 import it.uniroma2.sag.kelp.data.clustering.ClusterExample;
+import it.uniroma2.sag.kelp.data.clustering.ClusterList;
 import it.uniroma2.sag.kelp.data.dataset.Dataset;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.representation.Vector;
@@ -117,7 +118,7 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 	}
 
 	@Override
-	public List<Cluster> cluster(Dataset dataset) {
+	public ClusterList cluster(Dataset dataset) {
 		/*
 		 * Check consistency: the number of input examples MUST be greater or
 		 * equal to the target K
@@ -228,13 +229,12 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 			c.sortAscendingOrder();
 		}
 
-		ArrayList<Cluster> res = new ArrayList<Cluster>();
+		ClusterList res = new ClusterList();
 		for (LinearKMeansCluster linearKMeansCluster : resClusters) {
 			res.add(linearKMeansCluster);
 		}
 
 		return res;
-
 	}
 
 	/**

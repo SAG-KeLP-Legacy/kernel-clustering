@@ -19,6 +19,8 @@ import it.uniroma2.sag.kelp.data.clustering.Cluster;
 import it.uniroma2.sag.kelp.data.clustering.ClusterExample;
 import it.uniroma2.sag.kelp.data.representation.Vector;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 /**
  * It is the instance of a Cluster for Linear Algorithms, intended as a set of
  * objects, instantiated as Examples, grouped together according to a measure of
@@ -29,6 +31,7 @@ import it.uniroma2.sag.kelp.data.representation.Vector;
  * 
  * @author Danilo Croce
  */
+@JsonTypeName("linearkmeanscluster")
 public class LinearKMeansCluster extends Cluster {
 
 	private static final long serialVersionUID = 5929926539580341620L;

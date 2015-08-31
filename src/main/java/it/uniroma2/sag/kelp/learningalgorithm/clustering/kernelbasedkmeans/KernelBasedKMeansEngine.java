@@ -17,6 +17,7 @@ package it.uniroma2.sag.kelp.learningalgorithm.clustering.kernelbasedkmeans;
 
 import it.uniroma2.sag.kelp.data.clustering.Cluster;
 import it.uniroma2.sag.kelp.data.clustering.ClusterExample;
+import it.uniroma2.sag.kelp.data.clustering.ClusterList;
 import it.uniroma2.sag.kelp.data.dataset.Dataset;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.kernel.Kernel;
@@ -150,7 +151,7 @@ public class KernelBasedKMeansEngine implements ClusteringAlgorithm {
 
 		thirdMember = thirdMemberEqBuffer.get(cluster);
 
-		return first - secondNum / secondDen + thirdMember;
+		return (float) Math.sqrt(first - secondNum / secondDen + thirdMember);
 	}
 
 	public void checkConsistency(int K, int inputSize) throws Exception {
@@ -161,7 +162,7 @@ public class KernelBasedKMeansEngine implements ClusteringAlgorithm {
 	}
 
 	@Override
-	public List<Cluster> cluster(Dataset dataset) {
+	public ClusterList cluster(Dataset dataset) {
 		/*
 		 * Check consistency: the number of input examples MUST be greater or
 		 * equal to the target K
@@ -183,7 +184,7 @@ public class KernelBasedKMeansEngine implements ClusteringAlgorithm {
 		/*
 		 * Initialize seed and outputStructures
 		 */
-		List<Cluster> resClusters = new Vector<Cluster>();
+		ClusterList resClusters = new ClusterList();
 		Vector<Example> seedVector = getFirstExamplesAsSeed(dataset
 				.getExamples());
 		for (int clusterId = 0; clusterId < k; clusterId++) {
