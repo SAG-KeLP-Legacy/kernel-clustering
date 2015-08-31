@@ -21,7 +21,6 @@ import it.uniroma2.sag.kelp.data.dataset.Dataset;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.representation.Vector;
 import it.uniroma2.sag.kelp.learningalgorithm.clustering.ClusteringAlgorithm;
-import it.uniroma2.sag.kelp.learningalgorithm.clustering.kernelbasedkmeans.KernelBasedKMeansExample;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,13 +138,12 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 		for (int clusterId = 0; clusterId < k; clusterId++) {
 			resClusters.add(new LinearKMeansCluster("cluster_" + clusterId));
 			if (clusterId < seedVector.size()) {
-				KernelBasedKMeansExample kernelBasedKMeansExample = new KernelBasedKMeansExample(
+				LinearKMeansExample linearKMeansExample = new LinearKMeansExample(
 						seedVector.get(clusterId), 0);
 
-				resClusters.get(clusterId).add(kernelBasedKMeansExample);
+				resClusters.get(clusterId).add(linearKMeansExample);
 				resClusters.get(clusterId).updateCentroid(representationName);
 			}
-
 		}
 
 		/*
@@ -209,11 +207,10 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 						.getId());
 				float minDist = minDistances.get(example);
 
-				KernelBasedKMeansExample kernelBasedKMeansExample = new KernelBasedKMeansExample(
+				LinearKMeansExample linearKMeansExample = new LinearKMeansExample(
 						example, minDist);
 
-				resClusters.get(assignedClusterId)
-						.add(kernelBasedKMeansExample);
+				resClusters.get(assignedClusterId).add(linearKMeansExample);
 			}
 
 			for (int i = 0; i < resClusters.size(); i++)
