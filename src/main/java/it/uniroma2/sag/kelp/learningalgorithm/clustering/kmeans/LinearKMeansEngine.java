@@ -108,7 +108,7 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 				.getRepresentation(representationName);
 
 		if (cluster.getCentroid() == null) {
-			logger.warn("Waning:\t Centroid is null");
+			logger.warn("Warning:\t Centroid is null");
 			return exampleVector.getSquaredNorm();
 		}
 
