@@ -108,8 +108,7 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 				.getRepresentation(representationName);
 
 		if (cluster.getCentroid() == null) {
-			logger.warn("Warning:\t Centroid is null");
-			return exampleVector.getSquaredNorm();
+			return (float) Math.sqrt(exampleVector.getSquaredNorm());
 		}
 
 		Vector centroid = cluster.getCentroid();
@@ -162,6 +161,16 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 			HashMap<Example, Float> minDistances = new HashMap<Example, Float>();
 
 			/*
+			 * Check any null centroid
+			 */
+			for (int clusterId = 0; clusterId < k; clusterId++) {
+
+				if (resClusters.get(clusterId).getCentroid() == null)
+					logger.warn("Warning:\t Centroid of cluster " + clusterId
+							+ " is null at iteration " + t + ".");
+			}
+
+			/*
 			 * Searching for the nearest cluster
 			 */
 			for (Example example : dataset.getExamples()) {
@@ -170,7 +179,6 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 				int targetCluster = -1;
 
 				for (int clusterId = 0; clusterId < k; clusterId++) {
-
 					float d = calculateDistance(example,
 							(LinearKMeansCluster) resClusters.get(clusterId));
 
