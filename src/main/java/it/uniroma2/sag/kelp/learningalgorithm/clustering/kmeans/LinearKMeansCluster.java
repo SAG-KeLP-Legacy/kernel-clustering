@@ -100,6 +100,8 @@ public class LinearKMeansCluster extends Cluster {
 
 		}
 
-		centroid.scale(1 / (float) this.examples.size());
+		if (centroid != null) {
+			centroid.scale(1 / (float) this.examples.size());
+		}
 	}
 }
