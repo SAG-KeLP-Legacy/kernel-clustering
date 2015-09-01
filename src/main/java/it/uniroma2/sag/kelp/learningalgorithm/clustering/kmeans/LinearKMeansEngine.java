@@ -19,12 +19,13 @@ import it.uniroma2.sag.kelp.data.clustering.Cluster;
 import it.uniroma2.sag.kelp.data.clustering.ClusterExample;
 import it.uniroma2.sag.kelp.data.clustering.ClusterList;
 import it.uniroma2.sag.kelp.data.dataset.Dataset;
+import it.uniroma2.sag.kelp.data.dataset.example_selection.ExampleSelector;
+import it.uniroma2.sag.kelp.data.dataset.example_selection.FirstExampleSelector;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.representation.Vector;
 import it.uniroma2.sag.kelp.learningalgorithm.clustering.ClusteringAlgorithm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -32,7 +33,6 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
@@ -118,6 +118,11 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 
 	@Override
 	public ClusterList cluster(Dataset dataset) {
+		return cluster(dataset, new FirstExampleSelector(k));
+	}
+
+	@Override
+	public ClusterList cluster(Dataset dataset, ExampleSelector seedSelector) {
 		/*
 		 * Check consistency: the number of input examples MUST be greater or
 		 * equal to the target K
@@ -133,8 +138,7 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 		 * Initialize seed and outputStructures
 		 */
 		List<LinearKMeansCluster> resClusters = new ArrayList<LinearKMeansCluster>();
-		ArrayList<Example> seedVector = getFirstExamplesAsSeed(dataset
-				.getExamples());
+		List<Example> seedVector = seedSelector.select(dataset);
 		for (int clusterId = 0; clusterId < k; clusterId++) {
 			resClusters.add(new LinearKMeansCluster("cluster_" + clusterId));
 			if (clusterId < seedVector.size()) {
@@ -277,36 +281,6 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 		}
 
 		return reassignment;
-	}
-
-	/**
-	 * Select the seeds by selecting the first examples
-	 * 
-	 * @param inputExamples
-	 * @return The seed examples
-	 */
-	@JsonIgnore
-	private ArrayList<Example> getFirstExamplesAsSeed(
-			List<Example> inputExamples) {
-
-		ArrayList<Example> seeds = new ArrayList<Example>();
-
-		int addedSeedCounter = 0;
-
-		for (Example ex : inputExamples) {
-
-			if (++addedSeedCounter > k)
-				break;
-
-			seeds.add(ex);
-		}
-
-		int i = 0;
-		for (Example ex : seeds) {
-			logger.debug("Seed " + i++ + ": " + Arrays.toString(ex.getLabels()));
-		}
-
-		return seeds;
 	}
 
 	public int getK() {
