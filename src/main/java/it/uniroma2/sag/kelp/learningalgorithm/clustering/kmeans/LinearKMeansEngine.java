@@ -19,8 +19,8 @@ import it.uniroma2.sag.kelp.data.clustering.Cluster;
 import it.uniroma2.sag.kelp.data.clustering.ClusterExample;
 import it.uniroma2.sag.kelp.data.clustering.ClusterList;
 import it.uniroma2.sag.kelp.data.dataset.Dataset;
-import it.uniroma2.sag.kelp.data.dataset.example_selection.ExampleSelector;
-import it.uniroma2.sag.kelp.data.dataset.example_selection.FirstExampleSelector;
+import it.uniroma2.sag.kelp.data.dataset.selector.ExampleSelector;
+import it.uniroma2.sag.kelp.data.dataset.selector.FirstExamplesSelector;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.representation.Vector;
 import it.uniroma2.sag.kelp.learningalgorithm.clustering.ClusteringAlgorithm;
@@ -118,7 +118,7 @@ public class LinearKMeansEngine implements ClusteringAlgorithm {
 
 	@Override
 	public ClusterList cluster(Dataset dataset) {
-		return cluster(dataset, new FirstExampleSelector(k));
+		return cluster(dataset, new FirstExamplesSelector(k));
 	}
 
 	@Override
